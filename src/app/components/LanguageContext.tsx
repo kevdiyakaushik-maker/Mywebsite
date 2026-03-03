@@ -1,0 +1,893 @@
+import React, { createContext, useContext, useState, useEffect } from "react";
+
+export type Lang = "en" | "ru";
+
+export interface Translations {
+  // Header
+  nav: {
+    about: string;
+    certifications: string;
+    gallery: string;
+    diamonds: string;
+    d2c: string;
+    manufacturing: string;
+    services: string;
+    enquire: string;
+    enquireNow: string;
+  };
+  // Hero
+  hero: {
+    overline: string;
+    h1line1: string;
+    h1line2: string;
+    h1line3: string;
+    h1line4: string;
+    subline: string;
+    cta1: string;
+    cta2: string;
+    stat1label: string;
+    stat2label: string;
+    stat3label: string;
+    scroll: string;
+    marquee: string[];
+  };
+  // About
+  about: {
+    overline: string;
+    h2line1: string;
+    h2line2: string;
+    p1: string;
+    p2: string;
+    bullets: string[];
+    cta: string;
+    pillar1title: string;
+    pillar1desc: string;
+    pillar2title: string;
+    pillar2desc: string;
+    pillar3title: string;
+    pillar3desc: string;
+  };
+  // Certifications
+  certifications: {
+    overline: string;
+    h2line1: string;
+    h2line2: string;
+    subtext: string;
+    gradingTitle: string;
+    gradingDesc: string;
+    gradingStandards: string[];
+    imageLabel: string;
+    imageTitle: string;
+    certNote: string;
+  };
+  // Ethical Sourcing
+  ethical: {
+    overline: string;
+    h2line1: string;
+    h2line2: string;
+    intro: string;
+    points: { num: string; title: string; abbr?: string; desc: string }[];
+    tags: string[];
+  };
+  // Manufacturing
+  manufacturing: {
+    overline: string;
+    h2line1: string;
+    h2line2: string;
+    p1: string;
+    p2: string;
+    steps: { num: string; title: string; desc: string }[];
+    efficiency: { label: string; title: string; desc: string }[];
+  };
+  // Services
+  services: {
+    overline: string;
+    h2line1: string;
+    h2line2: string;
+    h2line3: string;
+    subtext: string;
+    items: { num: string; title: string; desc: string; tags: string[] }[];
+    supportTitle: string;
+    supportTitleItalic: string;
+    supportDesc: string;
+    supportItems: { t: string; d: string }[];
+  };
+  // WhyUs
+  whyus: {
+    overline: string;
+    h2line1: string;
+    h2line2: string;
+    benefits: { title: string; desc: string }[];
+    quote: string;
+    quoteLabel: string;
+  };
+  // Diamond Categories
+  diamonds: {
+    overline: string;
+    h2: string;
+    subtext: string;
+    enquireCta: string;
+    categories: {
+      id: string;
+      label: string;
+      subtitle: string;
+      tag: string;
+      description: string;
+      badge: string;
+      specs: string[];
+    }[];
+  };
+  // Mission Vision
+  missionVision: {
+    missionOverline: string;
+    missionH2line1: string;
+    missionH2line2: string;
+    missionText: string;
+    visionOverline: string;
+    visionH2line1: string;
+    visionH2line2: string;
+    visionText: string;
+    values: string[];
+    cta: string;
+  };
+  // Contact
+  contact: {
+    overline: string;
+    h2line1: string;
+    h2line2: string;
+    subtext: string;
+    labelEmail: string;
+    labelPhone: string;
+    labelLocation: string;
+    waBtn: string;
+    tgBtn: string;
+    igBtn: string;
+    fields: {
+      name: string;
+      namePlaceholder: string;
+      company: string;
+      companyPlaceholder: string;
+      email: string;
+      emailPlaceholder: string;
+      phone: string;
+      phonePlaceholder: string;
+      message: string;
+      messagePlaceholder: string;
+    };
+    submit: string;
+    notice: string;
+    alertMsg: string;
+  };
+  // Footer
+  footer: {
+    tagline: string;
+    follow: string;
+    navigate: string;
+    servicesLabel: string;
+    complianceLabel: string;
+    navItems: { l: string; id: string }[];
+    serviceItems: string[];
+    complianceItems: string[];
+    waBtn: string;
+    copyright: string;
+    b2bLine: string;
+    specialisations: string;
+    keywords: string[];
+  };
+  // D2C
+  d2c: {
+    overline: string;
+    h2: string;
+    h2italic: string;
+    subtext: string;
+    badge: string;
+    whyOverline: string;
+    whyTitle: string;
+    whyTitleItalic: string;
+    ctaOverline: string;
+    ctaTitle: string;
+    ctaTitleItalic: string;
+    ctaDesc: string;
+    waBtn: string;
+    tgBtn: string;
+    availability: string;
+    offerings: { label: string; detail: string; tag: string }[];
+    highlights: { title: string; desc: string }[];
+  };
+  // Gallery
+  gallery: {
+    overline: string;
+    h2: string;
+    h2italic: string;
+    subtext: string;
+    b2bPanel: string;
+    b2bSub: string;
+    ctaText: string;
+    catalogueBtn: string;
+    items: { label: string; tag: string }[];
+  };
+  // Global Map
+  globalMap: {
+    overline: string;
+    h2: string;
+    h2italic: string;
+    legendHQ: string;
+    legendMfg: string;
+    legendSales: string;
+    mfgLabel: string;
+    salesLabel: string;
+    mainSalesLabel: string;
+    loadingMap: string;
+  };
+}
+
+const en: Translations = {
+  nav: {
+    about: "About",
+    certifications: "Certifications",
+    gallery: "Gallery",
+    diamonds: "Diamonds",
+    d2c: "D2C",
+    manufacturing: "Manufacturing",
+    services: "Services",
+    enquire: "Enquire",
+    enquireNow: "Enquire Now",
+  },
+  hero: {
+    overline: "Vertically Integrated Diamond Manufacturer",
+    h1line1: "Shaped",
+    h1line2: "by Hand,",
+    h1line3: "Perfected",
+    h1line4: "in Every Facet",
+    subline: "From rough stone to radiant jewellery — JNK DIAM brings precision craftsmanship and certified quality directly to B2B partners worldwide.",
+    cta1: "Partner With Us",
+    cta2: "View Collection",
+    stat1label: "B2B Partners",
+    stat2label: "Clients",
+    stat3label: "Conflict-Free",
+    scroll: "Scroll",
+    marquee: [
+      "GIA Certified", "◆", "IGI Certified", "◆", "HRD Antwerp", "◆",
+      "Kimberley Process", "◆", "Conflict-Free Diamonds", "◆", "B2B Direct Supply", "◆",
+      "Ethically Sourced", "◆", "Zero Middlemen", "◆", "Loose Diamonds Wholesale", "◆",
+      "Diamond Jewellery Manufacturer", "◆", "Engagement Rings", "◆", "Custom Diamond Jewellery", "◆",
+      "Round Brilliant Cut", "◆", "VVS · VS · SI Clarity", "◆", "D–Z Colour Range", "◆",
+      "Dubai Diamond Supplier", "◆", "AML Compliant", "◆", "Factory Direct", "◆",
+    ],
+  },
+  about: {
+    overline: "About JNK DIAM",
+    h2line1: "Manufacturers,",
+    h2line2: "Not Middlemen",
+    p1: "We operate strictly as manufacturers and direct suppliers. JNK DIAM supplies certified loose diamonds, finished diamond jewellery, and — on jewellery orders — both the set piece and the accompanying certified loose stones together.",
+    p2: "Every diamond we supply — whether loose or set — carries internationally recognized GIA, IGI, or HRD certification, backed by full documentation and ethical provenance from source to delivery.",
+    bullets: [
+      "Certified loose diamonds — any cut, carat & clarity",
+      "Finished diamond jewellery — set with certified stones",
+      "Jewellery + loose certified diamonds supplied together",
+      "Zero intermediaries — direct from our factory",
+    ],
+    cta: "Start a Partnership",
+    pillar1title: "Loose Certified Diamonds",
+    pillar1desc: "GIA, IGI & HRD certified loose diamonds supplied in any cut, carat, colour, and clarity — entirely as per your specification.",
+    pillar2title: "Finished Diamond Jewellery",
+    pillar2desc: "In-house crafted diamond jewellery — rings, necklaces, earrings, bracelets — with certified diamonds set to your design.",
+    pillar3title: "Jewellery + Stones Together",
+    pillar3desc: "Order jewellery and receive the finished piece along with certified loose diamonds — full traceability and documentation included.",
+  },
+  certifications: {
+    overline: "Quality Assurance",
+    h2line1: "Every Diamond,",
+    h2line2: "Certified",
+    subtext: "Each stone is backed by internationally recognized laboratory certification — ensuring accuracy, authenticity, and global trade confidence for every B2B partner.",
+    gradingTitle: "Grading Standards",
+    gradingDesc: "Each certified diamond is assessed across the full 4C framework plus additional optical precision criteria used by all three labs.",
+    gradingStandards: ["Cut", "Color", "Clarity", "Carat Weight", "Symmetry & Polish", "Proportions", "Fluorescence"],
+    imageLabel: "Multi-Stage Process",
+    imageTitle: "Quality Inspection",
+    certNote: "Certification guarantees resale confidence, international trade acceptance, and transparent valuation — the foundation of every trusted B2B partnership.",
+  },
+  ethical: {
+    overline: "Ethics & Compliance",
+    h2line1: "Sourced",
+    h2line2: "Responsibly",
+    intro: "Integrity is not a compliance checkbox — it is central to everything we build. JNK DIAM is fully aligned with all international ethical sourcing standards.",
+    points: [
+      { num: "01", title: "Kimberley Process", abbr: "KPCS", desc: "Ensuring conflict-free diamonds through international certification standards adopted by 85 countries." },
+      { num: "02", title: "AML Compliance", desc: "Adhering to global anti-money laundering standards across all transactions and supply chain operations." },
+      { num: "03", title: "Ethical Procurement", desc: "Responsible sourcing exclusively from verified, audited, and transparent supply channels." },
+      { num: "04", title: "Full Traceability", desc: "Complete documentation providing a paper trail from rough stone to polished, certified delivery." },
+    ],
+    tags: ["Conflict-Free Diamonds", "Kimberley Process Certified", "AML Compliant", "Ethically Sourced", "International Standards"],
+  },
+  manufacturing: {
+    overline: "How We Work",
+    h2line1: "Vertical",
+    h2line2: "Manufacturing",
+    p1: "Our fully integrated model eliminates unnecessary cost layers while maintaining certified, internationally accepted quality standards at every stage.",
+    p2: "From selecting rough diamonds to delivering finished jewellery — every step is under our direct control.",
+    steps: [
+      { num: "01", title: "Ethical Rough Sourcing", desc: "KP-certified rough diamonds from verified, responsible supply channels globally." },
+      { num: "02", title: "Precision Cutting & Polishing", desc: "Advanced techniques and master craftsmanship maximizing brilliance and light return in every stone." },
+      { num: "03", title: "Quality Inspection", desc: "Each stone passes multiple internal inspection checkpoints before certification." },
+      { num: "04", title: "Laboratory Certification", desc: "GIA, IGI, or HRD grading reports issued for every polished diamond we supply." },
+      { num: "05", title: "Diamond Jewellery Setting", desc: "In-house setting and manufacturing of certified diamond jewellery — rings, pendants, earrings, and bracelets — for wholesale partners." },
+      { num: "06", title: "Loose Diamond Supply", desc: "Certified loose diamonds supplied to spec — any cut, carat, colour, and clarity as per customer requirement." },
+    ],
+    efficiency: [
+      { label: "01", title: "Lean Manufacturing", desc: "Streamlined production processes for maximum efficiency and minimum waste." },
+      { label: "02", title: "Scalable Capacity", desc: "Flexible output structures that adapt to your volume requirements." },
+      { label: "03", title: "Custom Development", desc: "Bespoke design and manufacturing solutions for unique brand requirements." },
+    ],
+  },
+  services: {
+    overline: "What We Supply",
+    h2line1: "Complete",
+    h2line2: "Manufacturing",
+    h2line3: "Services",
+    subtext: "Loose certified diamonds. Finished diamond jewellery. Or both together — with full certification for every stone. All supplied direct, as per your requirement.",
+    items: [
+      { num: "01", title: "Loose Certified Diamonds", desc: "We supply GIA, IGI, and HRD certified loose diamonds in any cut, carat, colour, and clarity — entirely as per customer requirement. Single stones to bulk lots.", tags: ["GIA · IGI · HRD certified", "All shapes & carat weights", "As per customer spec"] },
+      { num: "02", title: "Finished Diamond Jewellery", desc: "Precision-crafted diamond jewellery — rings, necklaces, pendants, earrings, and bracelets — manufactured in-house with certified diamonds set to your design brief.", tags: ["Rings, pendants & earrings", "Custom design briefs", "Certified stones set in-house"] },
+      { num: "03", title: "Jewellery + Certified Stones Together", desc: "When you order diamond jewellery, we also supply the accompanying certified loose diamonds — giving your business complete traceability and grading documentation for every piece.", tags: ["Full certification per stone", "Loose + set together", "Complete documentation"] },
+      { num: "04", title: "Custom Collections & Private Label", desc: "Bespoke diamond jewellery design and manufacturing fully tailored to your brand — from prototype to high-volume production, with certified diamonds throughout.", tags: ["Design consultation", "Prototype development", "Scalable production"] },
+      { num: "05", title: "B2B Bulk & Wholesale Supply", desc: "High-volume supply of certified loose diamonds and finished diamond jewellery for wholesalers, brands, and retailers requiring consistent, demand-driven output.", tags: ["Volume-based pricing", "Consistent graded quality", "Flexible lead times"] },
+    ],
+    supportTitle: "Educational &",
+    supportTitleItalic: "Strategic Support",
+    supportDesc: "Informed partners build stronger businesses. We support clients with diamond knowledge, quality optimization, and market trend intelligence.",
+    supportItems: [
+      { t: "Certification Guidance", d: "Understanding lab grading standards and their market impact" },
+      { t: "Quality Optimization", d: "Balancing visual quality with profitability for your segment" },
+      { t: "Market Insights", d: "Trends in sizes, clarities, cuts, and consumer demand" },
+    ],
+  },
+  whyus: {
+    overline: "Our Advantage",
+    h2line1: "Why Partner",
+    h2line2: "With JNK DIAM",
+    benefits: [
+      { title: "Vertically Integrated Manufacturing", desc: "Complete control from rough sourcing to finished product" },
+      { title: "GIA, IGI & HRD Certified", desc: "Internationally recognized certification for every stone" },
+      { title: "Ethical Sourcing Compliance", desc: "Kimberley Process certified and conflict-free diamonds" },
+      { title: "No Middleman Margins", desc: "Direct from manufacturer to your business" },
+      { title: "Transparent Documentation", desc: "Complete traceability and clear paperwork" },
+      { title: "Competitive Global Pricing", desc: "Cost-efficient pricing without compromising quality" },
+      { title: "Long-Term B2B Focus", desc: "Building sustainable relationships with our partners" },
+      { title: "Scalable Production Capacity", desc: "Flexible manufacturing to meet your growing needs" },
+    ],
+    quote: "From mine to market, with nothing hidden in between.",
+    quoteLabel: "JNK DIAM Promise",
+  },
+  diamonds: {
+    overline: "Loose Diamond Supply",
+    h2: "Diamond Categories",
+    subtext: "From colourless investment stones to rare fancy colours — we supply certified loose diamonds across every category for B2B buyers worldwide.",
+    enquireCta: "Enquire About",
+    categories: [
+      { id: "white", label: "White Diamonds", subtitle: "D–Z Colour Range", tag: "Classic · Colourless · Near-Colourless", description: "The timeless benchmark of brilliance. Available in all shapes and cuts from D (colourless) through Z, certified by GIA, IGI & HRD for absolute transparency.", specs: ["Rounds, Ovals, Cushions, Emeralds", "0.01 ct to 10.00 ct+", "GIA · IGI · HRD Certified"], badge: "Most Popular" },
+      { id: "brown", label: "Brown Diamonds", subtitle: "Champagne · Cognac · Chocolate", tag: "Warm · Earthy · Affordable Luxury", description: "Rich, warm tones ranging from light champagne to deep cognac and chocolate brown. An increasingly sought-after choice for bespoke jewellery at competitive price points.", specs: ["C1–C7 Colour Grades", "Natural Fancy Brown", "Excellent Value per Carat"], badge: "Best Value" },
+      { id: "yellow", label: "Yellow Diamonds", subtitle: "Fancy Light to Fancy Vivid", tag: "Canary · Vivid · Intense", description: "From delicate Fancy Light Yellow to the iconic Fancy Vivid Canary — yellow diamonds offer rare warmth and exceptional investment-grade appeal for premium B2B clients.", specs: ["Fancy Light to Fancy Vivid", "Natural & Treated Options", "IGI · GIA Certified"], badge: "Premium" },
+      { id: "coloured", label: "Coloured Diamonds", subtitle: "Pink · Blue · Green · Red · Orange", tag: "Rare · Fancy Colour · Investment Grade", description: "The rarest diamonds on earth. Fancy coloured diamonds in pink, blue, green, red and orange — sourced ethically and certified for colour intensity, ensuring genuine provenance.", specs: ["Natural Fancy Colour", "Pink, Blue, Green, Red, Orange", "Kimberley Process Certified"], badge: "Ultra Rare" },
+    ],
+  },
+  missionVision: {
+    missionOverline: "Our Mission",
+    missionH2line1: "Purpose-Driven",
+    missionH2line2: "Supply",
+    missionText: "To supply certified, ethically sourced diamonds and precision-crafted jewellery through a fully integrated and transparent manufacturing system.",
+    visionOverline: "Our Vision",
+    visionH2line1: "Global",
+    visionH2line2: "Leadership",
+    visionText: "To become a globally trusted diamond manufacturing company recognized for certified quality, unwavering integrity, and direct supply excellence.",
+    values: ["Quality", "Integrity", "Excellence"],
+    cta: "Begin a Partnership",
+  },
+  contact: {
+    overline: "B2B Enquiries",
+    h2line1: "Partner",
+    h2line2: "With Us",
+    subtext: "We partner exclusively with diamond jewellery manufacturers, wholesalers, and loose diamond buyers. Tell us about your requirements.",
+    labelEmail: "Email",
+    labelPhone: "Phone",
+    labelLocation: "Location",
+    waBtn: "WhatsApp Direct",
+    tgBtn: "Telegram Direct",
+    igBtn: "@jnkdiam",
+    fields: {
+      name: "Full Name",
+      namePlaceholder: "John Smith",
+      company: "Company",
+      companyPlaceholder: "Your Company",
+      email: "Email Address",
+      emailPlaceholder: "john@company.com",
+      phone: "Phone Number",
+      phonePlaceholder: "+1 555 000 0000",
+      message: "Message",
+      messagePlaceholder: "Tell us about your requirements — loose diamonds, finished jewellery, jewellery + certified stones together, quantities, specs...",
+    },
+    submit: "Send Enquiry",
+    notice: "B2B enquiries only · Minimum order quantities apply",
+    alertMsg: "Thank you for your enquiry. Our team will be in touch shortly.",
+  },
+  footer: {
+    tagline: "Vertically integrated diamond manufacturing and jewellery production — precision, certified quality, and transparent B2B supply.",
+    follow: "Follow",
+    navigate: "Navigate",
+    servicesLabel: "Services",
+    complianceLabel: "Compliance",
+    navItems: [
+      { l: "About Us", id: "about" },
+      { l: "Certifications", id: "certifications" },
+      { l: "Gallery", id: "gallery" },
+      { l: "Manufacturing", id: "manufacturing" },
+      { l: "Services", id: "services" },
+      { l: "Contact", id: "contact" },
+    ],
+    serviceItems: ["Loose Certified Diamonds", "Finished Diamond Jewellery", "Jewellery + Stones Together", "Custom Collections", "B2B Bulk & Wholesale Supply"],
+    complianceItems: ["Kimberley Process Certified", "AML Compliant", "Ethical Sourcing", "International Trade Ready", "Conflict-Free Diamonds"],
+    waBtn: "WhatsApp Us",
+    copyright: "All rights reserved.",
+    b2bLine: "B2B Diamond Manufacturing & Jewellery Production",
+    specialisations: "Specialisations",
+    keywords: [
+      "GIA Certified Diamonds", "IGI Certified Diamonds", "HRD Antwerp Certified",
+      "Loose Diamonds Wholesale", "Diamond Jewellery Manufacturer", "Custom Diamond Rings",
+      "Diamond Engagement Rings", "Diamond Necklaces", "Diamond Bracelets", "Diamond Earrings",
+      "Round Brilliant Cut", "Princess Cut Diamonds", "Oval Cut Diamonds", "Cushion Cut Diamonds",
+      "Emerald Cut Diamonds", "Pear Shape Diamonds", "VVS Diamonds", "VS Diamonds",
+      "Natural Diamonds", "Conflict-Free Diamonds", "Kimberley Process", "Ethically Sourced",
+      "B2B Diamond Supplier", "Diamond Factory Dubai", "Wholesale Diamond Jewellery",
+      "Pavé Diamond Jewellery", "Halo Rings", "Solitaire Diamonds", "Diamond Melee",
+      "White Gold Diamond Jewellery", "Yellow Gold Diamonds", "Platinum Diamond Rings",
+      "Diamond Parcels", "Vertically Integrated Manufacturer", "AML Compliant",
+    ],
+  },
+  d2c: {
+    overline: "Direct to Consumer",
+    h2: "Buy Direct from the",
+    h2italic: "Manufacturer",
+    subtext: "JNK DIAM is not just for businesses. Individual buyers can now access factory-direct certified diamonds and bespoke jewellery — at trade pricing, with full certification.",
+    badge: "D2C — No Middleman. Factory Prices. Certified Diamonds.",
+    whyOverline: "Why Buy Direct",
+    whyTitle: "The",
+    whyTitleItalic: "JNK DIAM D2C Advantage",
+    ctaOverline: "Start Your Journey",
+    ctaTitle: "Ready to Buy a Certified Diamond",
+    ctaTitleItalic: "Directly from the Source?",
+    ctaDesc: "Message us on WhatsApp or Telegram. Our experts will help you choose the right certified diamond or design your bespoke piece — at factory pricing, with zero compromises on quality.",
+    waBtn: "Chat on WhatsApp",
+    tgBtn: "Message on Telegram",
+    availability: "+971 58 130 7969 · Available 7 days a week",
+    offerings: [
+      { label: "Loose Certified Diamonds", detail: "Choose your own GIA / IGI / HRD certified stone — round, oval, cushion, emerald and more. Any carat, any budget.", tag: "From 0.20 ct" },
+      { label: "Bespoke Engagement Rings", detail: "Tell us your dream ring. Our craftsmen design and set it in-house with the certified diamond of your choice.", tag: "Fully Custom" },
+      { label: "Fine Diamond Jewellery", detail: "Necklaces, pendants, earrings, bracelets — finished pieces crafted in-house, set with certified diamonds, ready to wear or gift.", tag: "Ready to Gift" },
+      { label: "Gift with Premium Packaging", detail: "Surprise someone special. Every D2C order is presented in luxurious jewellery packaging — a complete gifting experience.", tag: "Luxury Boxed" },
+    ],
+    highlights: [
+      { title: "Factory-Direct Pricing", desc: "No middlemen. You buy directly from the manufacturer — the same quality supplied to jewellery brands worldwide, now available to individual buyers." },
+      { title: "Certified Every Time", desc: "Every diamond sold D2C comes with its original GIA, IGI, or HRD certificate. You see exactly what you're buying — cut, colour, clarity, carat." },
+      { title: "Bespoke Jewellery Made for You", desc: "Share your vision — we design and manufacture your custom piece in-house. Engagement rings, pendants, bracelets — crafted to your specification." },
+      { title: "Luxury Packaging & Presentation", desc: "Every order ships in premium jewellery packaging — ready to gift. Perfect for engagements, anniversaries, and special occasions." },
+      { title: "Worldwide Shipping", desc: "Securely insured and discreetly delivered worldwide. From our manufacturing facility directly to your door." },
+      { title: "Personal Consultation", desc: "Speak directly with our diamond experts via WhatsApp or Telegram. We guide you from stone selection to the finished piece." },
+    ],
+  },
+  gallery: {
+    overline: "Our Craftsmanship",
+    h2: "The",
+    h2italic: "Collection",
+    subtext: "Each piece manufactured in-house with certified stones, precision setting, and attention to lasting quality. All available for wholesale B2B supply.",
+    b2bPanel: "B2B",
+    b2bSub: "Wholesale Supply",
+    ctaText: "All pieces available for B2B wholesale — certified, crafted, and ready to ship.",
+    catalogueBtn: "Request Wholesale Catalogue",
+    items: [
+      { label: "Engagement Rings", tag: "Signature Collection" },
+      { label: "Diamond Necklaces", tag: "Pendant Series" },
+      { label: "Chandelier Earrings", tag: "Drop Collection" },
+      { label: "Halo Solitaire", tag: "Premium" },
+      { label: "Tennis Bracelets", tag: "Eternity" },
+      { label: "Bespoke Pieces", tag: "Luxury" },
+      { label: "Loose Diamonds", tag: "GIA · IGI · HRD" },
+      { label: "Jewellery Sets", tag: "Bridal" },
+    ],
+  },
+  globalMap: {
+    overline: "Our Reach",
+    h2: "Global",
+    h2italic: "Sales Network",
+    legendHQ: "Main Sales Office — Dubai",
+    legendMfg: "Manufacturing Hub — Mumbai",
+    legendSales: "Sales Offices",
+    mfgLabel: "Manufacturing Hub",
+    salesLabel: "Sales Offices",
+    mainSalesLabel: "Main Sales Office",
+    loadingMap: "Loading map…",
+  },
+};
+
+const ru: Translations = {
+  nav: {
+    about: "О нас",
+    certifications: "Сертификаты",
+    gallery: "Галерея",
+    diamonds: "Бриллианты",
+    d2c: "D2C",
+    manufacturing: "Производство",
+    services: "Услуги",
+    enquire: "Запрос",
+    enquireNow: "Отправить запрос",
+  },
+  hero: {
+    overline: "Вертикально интегрированный производитель бриллиантов",
+    h1line1: "Создано",
+    h1line2: "руками,",
+    h1line3: "Доведено",
+    h1line4: "до совершенства",
+    subline: "От необработанного камня до сияющего украшения — JNK DIAM доставляет точное мастерство и сертифицированное качество напрямую B2B-партнёрам по всему миру.",
+    cta1: "Стать партнёром",
+    cta2: "Смотреть коллекцию",
+    stat1label: "B2B Партнёры",
+    stat2label: "Клиенты",
+    stat3label: "Без конфликтов",
+    scroll: "Прокрутить",
+    marquee: [
+      "Сертификат GIA", "◆", "Сертификат IGI", "◆", "HRD Антверпен", "◆",
+      "Кимберлийский процесс", "◆", "Бриллианты без конфликтов", "◆", "Прямые поставки B2B", "◆",
+      "Этичный источник", "◆", "Без посредников", "◆", "Оптовая продажа бриллиантов", "◆",
+      "Производитель ювелирных украшений", "◆", "Обручальные кольца", "◆", "Украшения на заказ", "◆",
+      "Круглая бриллиантовая огранка", "◆", "Чистота VVS · VS · SI", "◆", "Цвета D–Z", "◆",
+      "Поставщик бриллиантов Дубай", "◆", "Соответствие ПОД", "◆", "Прямо с завода", "◆",
+    ],
+  },
+  about: {
+    overline: "О компании JNK DIAM",
+    h2line1: "Производители,",
+    h2line2: "а не посредники",
+    p1: "Мы работаем исключительно как производители и прямые поставщики. JNK DIAM поставляет сертифицированные россыпные бриллианты, готовые ювелирные украшения с бриллиантами, а также — при заказе украшений — и готовое изделие, и сопроводительные сертифицированные камни вместе.",
+    p2: "Каждый бриллиант, который мы поставляем — россыпной или вставленный — имеет международно признанный сертификат GIA, IGI или HRD, подкреплённый полной документацией и этическим происхождением от источника до доставки.",
+    bullets: [
+      "Сертифицированные россыпные бриллианты — любая огранка, карат и чистота",
+      "Готовые украшения с бриллиантами — с сертифицированными камнями",
+      "Украшения + россыпные сертифицированные бриллианты вместе",
+      "Ноль посредников — прямо с нашего завода",
+    ],
+    cta: "Начать партнёрство",
+    pillar1title: "Россыпные сертифицированные бриллианты",
+    pillar1desc: "Сертифицированные GIA, IGI и HRD россыпные бриллианты в любой огранке, карате, цвете и чистоте — полностью по вашим требованиям.",
+    pillar2title: "Готовые украшения с бриллиантами",
+    pillar2desc: "Украшения с бриллиантами собственного производства — кольца, колье, серьги, браслеты — с сертифицированными камнями по вашему дизайну.",
+    pillar3title: "Украшения + камни вместе",
+    pillar3desc: "Закажите украшения и получите готовое изделие вместе с сертифицированными россыпными бриллиантами — полная прослеживаемость и документация включены.",
+  },
+  certifications: {
+    overline: "Гарантия качества",
+    h2line1: "Каждый бриллиант,",
+    h2line2: "сертифицирован",
+    subtext: "Каждый камень подтверждён международно признанным лабораторным сертификатом — обеспечивая точность, подлинность и уверенность в глобальной торговле для каждого B2B-партнёра.",
+    gradingTitle: "Стандарты оценки",
+    gradingDesc: "Каждый сертифицированный бриллиант оценивается по полной системе 4C плюс дополнительные критерии оптической точности, используемые всеми тремя лабораториями.",
+    gradingStandards: ["Огранка", "Цвет", "Чистота", "Вес в каратах", "Симметрия и полировка", "Пропорции", "Флуоресценция"],
+    imageLabel: "Многоэтапный процесс",
+    imageTitle: "Контроль качества",
+    certNote: "Сертификация гарантирует уверенность при перепродаже, международное торговое признание и прозрачную оценку — основу каждого надёжного B2B-партнёрства.",
+  },
+  ethical: {
+    overline: "Этика и соответствие",
+    h2line1: "Ответственный",
+    h2line2: "источник",
+    intro: "Честность — это не просто галочка в чек-листе соответствия, это основа всего, что мы строим. JNK DIAM полностью соответствует всем международным стандартам этичного снабжения.",
+    points: [
+      { num: "01", title: "Кимберлийский процесс", abbr: "КПКС", desc: "Обеспечение бриллиантов без конфликтов посредством международных стандартов сертификации, принятых 85 странами." },
+      { num: "02", title: "Соответствие ПОД", desc: "Соблюдение глобальных стандартов противодействия отмыванию денег во всех транзакциях и операциях цепочки поставок." },
+      { num: "03", title: "Этичные закупки", desc: "Ответственный источник исключительно из проверенных, прошедших аудит и прозрачных каналов поставок." },
+      { num: "04", title: "Полная прослеживаемость", desc: "Полная документация, обеспечивающая прослеживание от необработанного камня до полированной, сертифицированной доставки." },
+    ],
+    tags: ["Бриллианты без конфликтов", "Кимберлийский процесс", "Соответствие ПОД", "Этичный источник", "Международные стандарты"],
+  },
+  manufacturing: {
+    overline: "Как мы работаем",
+    h2line1: "Вертикальное",
+    h2line2: "производство",
+    p1: "Наша полностью интегрированная модель устраняет излишние слои затрат, сохраняя сертифицированные, международно признанные стандарты качества на каждом этапе.",
+    p2: "От выбора необработанных бриллиантов до доставки готовых украшений — каждый этап находится под нашим прямым контролем.",
+    steps: [
+      { num: "01", title: "Этичная закупка сырья", desc: "KP-сертифицированные необработанные бриллианты из проверенных, ответственных каналов поставок по всему миру." },
+      { num: "02", title: "Точная огранка и полировка", desc: "Передовые техники и мастерское мастерство, максимизирующие блеск и светоотдачу каждого камня." },
+      { num: "03", title: "Контроль качества", desc: "Каждый камень проходит несколько внутренних контрольных точек проверки перед сертификацией." },
+      { num: "04", title: "Лабораторная сертификация", desc: "Отчёты о грейдинге GIA, IGI или HRD, выдаваемые для каждого полированного бриллианта, который мы поставляем." },
+      { num: "05", title: "Вставка бриллиантов в украшения", desc: "Вставка и производст��о сертифицированных украшений с бриллиантами — кольца, подвески, серьги и браслеты — для оптовых партнёров." },
+      { num: "06", title: "Поставка россыпных бриллиантов", desc: "Сертифицированные россыпные бриллианты, поставляемые по спецификации — любая огранка, карат, цвет и чистота по требованию клиента." },
+    ],
+    efficiency: [
+      { label: "01", title: "Бережное производство", desc: "Оптимизированные производственные процессы для максимальной эффективности и минимальных отходов." },
+      { label: "02", title: "Масштабируемая мощность", desc: "Гибкие производственые структуры, адаптирующиеся к вашим объёмным требованиям." },
+      { label: "03", title: "Разработка на заказ", desc: "Индивидуальные решения по дизайну и производству для уникальных требований бренда." },
+    ],
+  },
+  services: {
+    overline: "Что мы поставляем",
+    h2line1: "Полный",
+    h2line2: "комплекс",
+    h2line3: "услуг",
+    subtext: "Россыпные сертифицированные бриллианты. Готовые украшения с бриллиантами. Или и то, и другое — с полной сертификацией каждого камня. Всё поставляется напрямую, по вашим требованиям.",
+    items: [
+      { num: "01", title: "Россыпные сертифицированные бриллианты", desc: "Мы поставляем сертифицированные GIA, IGI и HRD россыпные бриллианты в любой огранке, карате, цвете и чистоте — полностью по требованию клиента. От отдельных камней до крупных партий.", tags: ["Сертификаты GIA · IGI · HRD", "Все формы и веса", "По спецификации клиента"] },
+      { num: "02", title: "Готовые украшения с бриллиантами", desc: "Украшения с бриллиантами точного производства — кольца, колье, подвески, серьги и браслеты — изготавливаются на собственном производстве с сертифицированными бриллиантами по вашему дизайну.", tags: ["Кольца, подвески и серьги", "Дизайн на заказ", "Камни вставляются на месте"] },
+      { num: "03", title: "Украшения + сертифицированные камни вместе", desc: "При заказе украшений с бриллиантами мы также поставляем сопроводительные сертифицированные россыпные бриллианты — обеспечивая вашему бизнесу полную прослеживаемость и документацию грейдинга для каждого изделия.", tags: ["Полная сертификация камня", "Россыпной + вставной вместе", "Полная документация"] },
+      { num: "04", title: "Авторские коллекции и частная марка", desc: "Индивидуальный дизайн и производство украшений с бриллиантами, полностью адаптированные под ваш бренд — от прототипа до крупносерийного производства с сертифицированными бриллиантами.", tags: ["Дизайн-консультация", "Разработка прототипа", "Масштабируемое производство"] },
+      { num: "05", title: "B2B оптовые поставки", desc: "Поставки больших объёмов сертифицированных россыпных бриллиантов и готовых украшений с бриллиантами для оптовиков, брендов и розничных продавцов, требующих стабильного производства.", tags: ["Ценообразование по объёму", "Стабильное качество", "Гибкие сроки"] },
+    ],
+    supportTitle: "Образовательная &",
+    supportTitleItalic: "Стратегическая поддержка",
+    supportDesc: "Информированные партнёры строят более сильный бизнес. Мы поддерживаем клиентов знаниями о бриллиантах, оптимизацией качества и аналитикой рыночных тенденций.",
+    supportItems: [
+      { t: "Руководство по сертификации", d: "Понимание стандартов лабораторного грейдинга и их влияния на рынок" },
+      { t: "Оптимизация качества", d: "Балан�� визуального качества и рентабельности для вашего сегмента" },
+      { t: "Рыночные тенденции", d: "Тренды в размерах, чистоте, огранках и потребительском спросе" },
+    ],
+  },
+  whyus: {
+    overline: "Наше преимущество",
+    h2line1: "Почему",
+    h2line2: "JNK DIAM",
+    benefits: [
+      { title: "Вертикально интегрированное производство", desc: "Полный контроль от закупки сырья до готового изделия" },
+      { title: "Сертификаты GIA, IGI и HRD", desc: "Международно признанная сертификация для каждого камня" },
+      { title: "Соответствие этичному снабжению", desc: "Кимберлийский процесс и бриллианты без конфликтов" },
+      { title: "Без наценок посредников", desc: "Напрямую от производителя к вашему бизнесу" },
+      { title: "Прозрачная документация", desc: "Полная прослеживаемость и чёткое оформление документов" },
+      { title: "Конкурентоспособные мировые цены", desc: "Экономичные цены без ущерба для качества" },
+      { title: "Долгосрочный B2B-фокус", desc: "Построение устойчивых отношений с нашими партнёрами" },
+      { title: "Масштабируемая производственная мощность", desc: "Гибкое производство для удовлетворения растущих потребностей" },
+    ],
+    quote: "От шахты до рынка — без скрытых звеньев между ними.",
+    quoteLabel: "Обещание JNK DIAM",
+  },
+  diamonds: {
+    overline: "Поставка россыпных бриллиантов",
+    h2: "Категории бриллиантов",
+    subtext: "От бесцветных инвестиционных камней до редких цветных — мы поставляем сертифицированные россыпные бриллианты всех категорий для B2B-покупателей по всему миру.",
+    enquireCta: "Запрос о",
+    categories: [
+      { id: "white", label: "Белые бриллианты", subtitle: "Цвета D–Z", tag: "Классика · Бесцветный · Почти бесцветный", description: "Вечный эталон блеска. Доступен во всех формах и огранках от D (бесцветный) до Z, сертифицированный GIA, IGI и HRD для абсолютной прозрачности.", specs: ["Круглые, овальные, подушки, изумруды", "0,01 кт до 10,00 кт+", "Сертификаты GIA · IGI · HRD"], badge: "Самый популярный" },
+      { id: "brown", label: "Коричневые бриллианты", subtitle: "Шампанское · Коньяк · Шоколад", tag: "Тёплый · Земной · Доступная роскошь", description: "Богатые тёплые тона от светлого шампанского до глубокого коньяка и шоколадно-коричневого. Всё более востребованный выбор для эксклюзивных украшений по конкурентным ценам.", specs: ["Цветовые оценки C1–C7", "Натуральный причудливый коричневый", "Отличная стоимость за карат"], badge: "Лучшая цена" },
+      { id: "yellow", label: "Жёлтые бриллианты", subtitle: "От Fancy Light до Fancy Vivid", tag: "Канарейка · Vivid · Насыщенный", description: "От нежного Fancy Light Yellow до знаменитой Fancy Vivid Canary — жёлтые бриллианты предлагают редкую теплоту и исключительную инвестиционную привлекательность для премиальных B2B-клиентов.", specs: ["От Fancy Light до Fancy Vivid", "Натуральные и обработанные варианты", "Сертификаты IGI · GIA"], badge: "Премиум" },
+      { id: "coloured", label: "Цветные бриллианты", subtitle: "Розовые · Синие · Зелёные · Красные · Оранжевые", tag: "Редкий · Причудливый цвет · Инвестиционный класс", description: "Самые редкие бриллианты на земле. Причудливые цветные бриллианты розового, синего, зелёного, красного и оранжевого цветов — этично добытые и сертифицированные по интенсивности цвета.", specs: ["Натуральный причудливый цвет", "Розовый, синий, зелёный, красный, оранжевый", "Кимберлийский процесс"], badge: "Ультра редкий" },
+    ],
+  },
+  missionVision: {
+    missionOverline: "Наша миссия",
+    missionH2line1: "Целенаправленные",
+    missionH2line2: "поставки",
+    missionText: "Поставлять сертифицированные, этично добытые бриллианты и украшения точного производства через полностью интегрированную и прозрачную производственную систему.",
+    visionOverline: "Наше видение",
+    visionH2line1: "Глобальное",
+    visionH2line2: "лидерство",
+    visionText: "Стать всемирно признанной компанией по производству бриллиантов, известной сертифицированным качеством, непоколебимой честностью и превосходством прямых поставок.",
+    values: ["Качество", "Честность", "Совершенство"],
+    cta: "Начать партнёрство",
+  },
+  contact: {
+    overline: "B2B запросы",
+    h2line1: "Партнёрство",
+    h2line2: "с нами",
+    subtext: "Мы сотрудничаем исключительно с производителями ювелирных украшений с бриллиантами, оптовиками и покупателями россыпных бриллиантов. Расскажите нам о ваших требованиях.",
+    labelEmail: "Email",
+    labelPhone: "Телефон",
+    labelLocation: "Адрес",
+    waBtn: "WhatsApp напрямую",
+    tgBtn: "Telegram напрямую",
+    igBtn: "@jnkdiam",
+    fields: {
+      name: "Полное имя",
+      namePlaceholder: "Иван Иванов",
+      company: "Компания",
+      companyPlaceholder: "Ваша компания",
+      email: "Email адрес",
+      emailPlaceholder: "ivan@company.com",
+      phone: "Номер телефона",
+      phonePlaceholder: "+7 999 000 0000",
+      message: "Сообщение",
+      messagePlaceholder: "Расскажите о ваших требованиях — россыпные бриллианты, готовые украшения, украшения + сертифицированные камни, количество, характеристики...",
+    },
+    submit: "Отправить запрос",
+    notice: "Только B2B запросы · Минимальные объёмы заказа",
+    alertMsg: "Спасибо за ваш запрос. Наша команда свяжется с вами в ближайшее время.",
+  },
+  footer: {
+    tagline: "Вертикально интегрированное п��оизводство бриллиантов и ювелирных украшений — точность, сертифицированное качество и прозрачные B2B-поставки.",
+    follow: "Следите",
+    navigate: "Навигация",
+    servicesLabel: "Услуги",
+    complianceLabel: "Соответствие",
+    navItems: [
+      { l: "О нас", id: "about" },
+      { l: "Сертификаты", id: "certifications" },
+      { l: "Галерея", id: "gallery" },
+      { l: "Производство", id: "manufacturing" },
+      { l: "Услуги", id: "services" },
+      { l: "Контакты", id: "contact" },
+    ],
+    serviceItems: ["Россыпные сертифицированные бриллианты", "Готовые украшения с бриллиантами", "Украшения + камни вместе", "Авторские коллекции", "B2B оптовые поставки"],
+    complianceItems: ["Кимберлийский процесс", "Соответствие ПОД", "Этичный источник", "Готовность к международной торговле", "Бриллианты без конфликтов"],
+    waBtn: "WhatsApp",
+    copyright: "Все права защищены.",
+    b2bLine: "B2B производство бриллиантов и ювелирных украшений",
+    specialisations: "Специализации",
+    keywords: [
+      "Сертифицированные бриллианты GIA", "Сертифицированные бриллианты IGI", "Сертификат HRD Антверпен",
+      "Оптовые россыпные бриллианты", "Производитель ювелирных украшений", "Кольца на заказ",
+      "Обручальные кольца с бриллиантами", "Колье с бриллиантами", "Браслеты с бриллиантами", "Серьги с бриллиантами",
+      "Круглая бриллиантовая огранка", "Огранка принцесса", "Овальная огранка", "Огранка подушка",
+      "Изумрудная огранка", "Огранка груша", "Бриллианты VVS", "Бриллианты VS",
+      "Натуральные бриллианты", "Бриллианты без конфликтов", "Кимберлийский процесс", "Этичный источник",
+      "Поставщик бриллиантов B2B", "Завод бриллиантов Дубай", "Оптовые ювелирные украшения",
+      "Украшения с павé", "Украшения с гало", "Солитер", "Мелеe бриллианты",
+      "Украшения из белого золота", "Украшения из жёлтого золота", "Кольца из платины",
+      "Партии бриллиантов", "Вертикально интегрированный производитель", "Соответствие ПОД",
+    ],
+  },
+  d2c: {
+    overline: "Прямо потребителю",
+    h2: "Купить напрямую у",
+    h2italic: "производителя",
+    subtext: "JNK DIAM — не только для бизнеса. Частные покупатели теперь могут получить доступ к сертифицированным бриллиантам и эксклюзивным украшениям напрямую с завода — по торговым ценам, с полной сертификацией.",
+    badge: "D2C — Без посредников. Заводские цены. Сертифицированные бриллианты.",
+    whyOverline: "Почему покупать напрямую",
+    whyTitle: "Преимущество",
+    whyTitleItalic: "JNK DIAM D2C",
+    ctaOverline: "Начните свой путь",
+    ctaTitle: "Готовы купить сертифицированный бриллиант",
+    ctaTitleItalic: "прямо из источника?",
+    ctaDesc: "Напишите нам в WhatsApp или Telegram. Наши эксперты помогут вам выбрать подходящий сертифицированный бриллиант или разработать эксклюзивное изделие — по заводским ценам, без компромиссов по качеству.",
+    waBtn: "Написать в WhatsApp",
+    tgBtn: "Написать в Telegram",
+    availability: "+971 58 130 7969 · Доступны 7 дней в неделю",
+    offerings: [
+      { label: "Россыпные сертифицированные бриллианты", detail: "Выберите свой GIA / IGI / HRD сертифицированный камень — круглый, овальный, подушка, изумруд и другие. Любой карат, любой бюджет.", tag: "От 0,20 кт" },
+      { label: "Эксклюзивные обручальные кольца", detail: "Расскажите нам о своей мечте. Наши мастера разработают и вставят камень на нашем производстве с сертифицированным бриллиантом по вашему выбору.", tag: "Полностью на заказ" },
+      { label: "Ювелирные украшения с бриллиантами", detail: "Колье, подвески, серьги, браслеты — готовые изделия собственного производства с сертифицированными бриллиантами.", tag: "Готово к подарку" },
+      { label: "Подарок в премиальной упаковке", detail: "Удивите кого-то особенного. Каждый D2C заказ представлен в роскошной ювелирной упаковке — полный опыт дарения.", tag: "Люксовая коробка" },
+    ],
+    highlights: [
+      { title: "Цены прямо с завода", desc: "Никаких посредников. Вы покупаете напрямую у производителя — то же качество, что поставляется ювелирным брендам по всему миру, теперь доступно частным покупателям." },
+      { title: "Сертификат каждый раз", desc: "Каждый бриллиант, проданный через D2C, имеет оригинальный сертификат GIA, IGI или HRD. Вы видите именно то, что покупаете — огранка, цвет, чистота, карат." },
+      { title: "Эксклюзивные украшения для вас", desc: "Поделитесь своим видением — мы разработаем и изготовим ваше изделие на нашем производстве. Обручальные кольца, подвески, браслеты — по вашим требованиям." },
+      { title: "Люксовая упаковка", desc: "Каждый заказ поставляется в премиальной ювелирной упаковке — готово к подарку. Идеально для помолвок, юбилеев и особых случаев." },
+      { title: "Доставка по всему миру", desc: "Безопасно застрахованная и дискретная доставка по всему миру. С нашего производства прямо к вашей двери." },
+      { title: "Личная консультация", desc: "Говорите напрямую с нашими экспертами по бриллиантам через WhatsApp или Telegram. Мы ведём вас от выбора камня до готового изделия." },
+    ],
+  },
+  gallery: {
+    overline: "Наше мастерство",
+    h2: "",
+    h2italic: "Коллекция",
+    subtext: "Каждое изделие произведено на нашем заводе с ��ертифицированными камнями, точной вставкой и вниманием к долговечному качеству. Всё доступно для оптовых B2B поставок.",
+    b2bPanel: "B2B",
+    b2bSub: "Оптовые поставки",
+    ctaText: "Все изделия доступны для B2B оптовых продаж — сертифицированы, изготовлены и готовы к отправке.",
+    catalogueBtn: "Запрос оптового каталога",
+    items: [
+      { label: "Обручальные кольца", tag: "Фирменная коллекция" },
+      { label: "Колье с бриллиантами", tag: "Серия подвесок" },
+      { label: "Серьги-люстры", tag: "Коллекция Drop" },
+      { label: "Гало-солитер", tag: "Премиум" },
+      { label: "Теннисные браслеты", tag: "Вечность" },
+      { label: "Эксклюзивные изделия", tag: "Люкс" },
+      { label: "Россыпные бриллианты", tag: "GIA · IGI · HRD" },
+      { label: "Ювелирные наборы", tag: "Свадебный" },
+    ],
+  },
+  globalMap: {
+    overline: "Наш охват",
+    h2: "Глобальная",
+    h2italic: "сеть продаж",
+    legendHQ: "Главный офис продаж — Дубай",
+    legendMfg: "Производственный центр — Мумбаи",
+    legendSales: "Офисы продаж",
+    mfgLabel: "Производственный центр",
+    salesLabel: "Офисы продаж",
+    mainSalesLabel: "Главный офис продаж",
+    loadingMap: "Загрузка карты…",
+  },
+};
+
+const translations: Record<Lang, Translations> = { en, ru };
+
+interface LanguageContextValue {
+  lang: Lang;
+  setLang: (l: Lang) => void;
+  t: Translations;
+}
+
+const LanguageContext = createContext<LanguageContextValue>({
+  lang: "en",
+  setLang: () => {},
+  t: en,
+});
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+
+  // Russian-speaking browser locales
+  const RU_LOCALES = ["ru", "be", "kk", "uk", "ky", "tg", "uz", "az", "hy"];
+  // Russian-speaking country codes (ISO 3166-1 alpha-2)
+  const RU_COUNTRIES = new Set([
+    "RU","BY","KZ","UA","KG","TJ","UZ","AZ","AM","GE","MD",
+    "LV","LT","EE","TM","MN",
+  ]);
+
+  const detectBrowserLang = (): Lang | null => {
+    try {
+      const langs = navigator.languages || [navigator.language];
+      for (const l of langs) {
+        const code = l.split("-")[0].toLowerCase();
+        if (RU_LOCALES.includes(code)) return "ru";
+      }
+    } catch {}
+    return null;
+  };
+
+  const [lang, setLangState] = useState<Lang>(() => {
+    try {
+      const stored = localStorage.getItem("jnk_lang") as Lang;
+      if (stored === "ru" || stored === "en") return stored;
+    } catch {}
+    // Fall back to browser language detection synchronously
+    return detectBrowserLang() ?? "en";
+  });
+
+  const setLang = (l: Lang) => {
+    setLangState(l);
+    try { localStorage.setItem("jnk_lang", l); } catch {}
+    document.documentElement.lang = l === "ru" ? "ru" : "en";
+  };
+
+  useEffect(() => {
+    document.documentElement.lang = lang === "ru" ? "ru" : "en";
+  }, [lang]);
+
+  // IP geolocation — only runs if user has NO stored preference and browser didn't already resolve to RU
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("jnk_lang");
+      if (stored === "ru" || stored === "en") return; // user made explicit choice
+      if (detectBrowserLang() === "ru") return;       // browser already detected RU
+    } catch {}
+
+    // Free IP geolocation (no API key needed, 30k req/month)
+    fetch("https://ipapi.co/json/", { signal: AbortSignal.timeout(4000) })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && RU_COUNTRIES.has(String(data.country_code).toUpperCase())) {
+          setLangState("ru");
+          document.documentElement.lang = "ru";
+          // Don't persist to localStorage — let them change it freely
+        }
+      })
+      .catch(() => {
+        // Fallback: try ip-api.com
+        return fetch("http://ip-api.com/json/?fields=countryCode", { signal: AbortSignal.timeout(4000) })
+          .then((r) => r.json())
+          .then((data) => {
+            if (data && RU_COUNTRIES.has(String(data.countryCode).toUpperCase())) {
+              setLangState("ru");
+              document.documentElement.lang = "ru";
+            }
+          })
+          .catch(() => {});
+      });
+  }, []);
+
+  return (
+    <LanguageContext.Provider value={{ lang, setLang, t: translations[lang] }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLang() {
+  return useContext(LanguageContext);
+}

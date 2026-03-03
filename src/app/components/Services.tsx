@@ -71,7 +71,7 @@ export function Services() {
         {/* Support callout */}
         <motion.div
           initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }}
-          className="mt-16 p-12 md:p-16 border grid md:grid-cols-2 gap-12 items-center"
+          className="mt-16 p-8 sm:p-12 md:p-16 border grid md:grid-cols-2 gap-12 items-center"
           style={{ borderColor: "rgba(201,169,110,0.2)", background: "rgba(201,169,110,0.04)" }}
         >
           <div>

@@ -7,7 +7,7 @@ export function EthicalSourcing() {
   const e = t.ethical;
 
   return (
-    <section className="overflow-hidden" style={{ background: "#0A0703" }}>
+    <section id="ethical-sourcing" className="overflow-hidden" style={{ background: "#0A0703" }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-14 pt-28 pb-20">
         <motion.div
           initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}

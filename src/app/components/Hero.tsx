@@ -174,8 +174,8 @@ export function Hero() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: loaded ? 1 : 0, y: loaded ? 0 : 10 }}
             transition={{ duration: 1, delay: 1.2 }}
-            className="mt-16 pt-8 flex flex-wrap gap-10 md:gap-14 border-t"
-            style={{ borderColor: "rgba(201,169,110,0.15)" }}
+            className="mt-16 pt-8 flex gap-8 md:gap-14 border-t overflow-x-auto"
+            style={{ borderColor: "rgba(201,169,110,0.15)", scrollbarWidth: "none" }}
           >
             {[
               { num: `${customerCount}+`, label: t.hero.stat1label },

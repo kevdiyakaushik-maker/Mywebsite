@@ -6,9 +6,10 @@ function WhatsAppIconSm() { return <svg viewBox="0 0 32 32" fill="currentColor" 
 function TelegramIcon() { return <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>; }
 
 export function Footer() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const f = t.footer;
   const year = new Date().getFullYear();
+  const isRu = lang === "ru";
 
   const socials = [
     { label: "Instagram", href: "https://www.instagram.com/jnkdiam/", Icon: InstagramIcon, hoverColor: "#E1306C" },
@@ -21,9 +22,9 @@ export function Footer() {
       <div className="h-px" style={{ background: "linear-gradient(90deg, transparent 0%, #A8834A 25%, #E8D5A8 50%, #A8834A 75%, transparent 100%)" }} />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-14 py-20">
-        <div className="grid md:grid-cols-12 gap-12 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-10 md:gap-12 mb-16">
           {/* Brand */}
-          <div className="md:col-span-4">
+          <div className="sm:col-span-2 md:col-span-4">
             <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex flex-col mb-6 group text-left">
               <img src={logoImg} alt="JNK DIAM" style={{ height: "70px", width: "auto", objectFit: "contain", marginBottom: "4px", filter: "brightness(0) invert(1) contrast(1.5) drop-shadow(0 0 8px rgba(255,255,255,0.6))" }} />
               <span className="text-[10px] tracking-[0.5em] uppercase" style={{ color: "#C9A96E", fontFamily: "'Jost', sans-serif", fontWeight: 300, letterSpacing: "0.45em" }}>Certified Excellence</span>
@@ -38,7 +39,7 @@ export function Footer() {
             </div>
 
             <div className="text-[10px] tracking-[0.35em] uppercase mb-3" style={{ color: "#7A6B55", fontFamily: "'Jost', sans-serif" }}>{f.follow}</div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 mb-6">
               {socials.map(({ label, href, Icon, hoverColor }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
                   className="w-8 h-8 flex items-center justify-center border transition-all duration-300 hover:scale-110"
@@ -97,12 +98,22 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <a href="https://wa.me/971581307969" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 text-xs tracking-[0.2em] uppercase text-white transition-all hover:scale-[1.03]"
-              style={{ background: "#128C7E", fontFamily: "'Jost', sans-serif", fontWeight: 500 }}
-            >
-              <WhatsAppIconSm />{f.waBtn}
-            </a>
+            {/* Language-aware CTA button */}
+            {isRu ? (
+              <a href="https://t.me/Jnkdiam" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-3 text-xs tracking-[0.2em] uppercase text-white transition-all hover:scale-[1.03]"
+                style={{ background: "#0088CC", fontFamily: "'Jost', sans-serif", fontWeight: 500 }}
+              >
+                <TelegramIcon />Telegram
+              </a>
+            ) : (
+              <a href="https://wa.me/971581307969" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-3 text-xs tracking-[0.2em] uppercase text-white transition-all hover:scale-[1.03]"
+                style={{ background: "#128C7E", fontFamily: "'Jost', sans-serif", fontWeight: 500 }}
+              >
+                <WhatsAppIconSm />{f.waBtn}
+              </a>
+            )}
           </div>
         </div>
 
@@ -113,7 +124,7 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-2">
             <span style={{ color: "#C9A96E", fontSize: "8px" }}>◆</span>
-            <p className="text-xs" style={{ color: "#7A6B55", fontFamily: "'Jost', sans-serif", fontWeight: 300, letterSpacing: "0.1em" }}>{f.b2bLine}</p>
+            <p className="text-xs text-center" style={{ color: "#7A6B55", fontFamily: "'Jost', sans-serif", fontWeight: 300, letterSpacing: "0.1em" }}>{f.b2bLine}</p>
             <span style={{ color: "#C9A96E", fontSize: "8px" }}>◆</span>
           </div>
         </div>

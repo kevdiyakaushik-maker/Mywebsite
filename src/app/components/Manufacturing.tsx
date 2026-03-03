@@ -72,7 +72,14 @@ export function Manufacturing() {
         {/* Efficiency strip */}
         <div className="mt-16 border-t grid md:grid-cols-3" style={{ borderColor: "rgba(26,17,8,0.1)" }}>
           {m.efficiency.map(({ label, title, desc }, i) => (
-            <div key={label} className="py-10 px-8 group cursor-default" style={{ borderRight: i < 2 ? "1px solid rgba(26,17,8,0.1)" : "none" }}>
+            <div
+              key={label}
+              className="py-10 px-8 group cursor-default border-b md:border-b-0"
+              style={{
+                borderRight: i < 2 ? "1px solid rgba(26,17,8,0.1)" : "none",
+                borderBottomColor: "rgba(26,17,8,0.1)",
+              }}
+            >
               <div className="text-xs tracking-[0.25em] mb-3" style={{ color: "#C9A96E", fontFamily: "'Jost', sans-serif" }}>{label}</div>
               <h4 className="mb-2 group-hover:text-[#C9A96E] transition-colors" style={{ fontFamily: "'Playfair Display', serif", color: "#1A1108" }}>{title}</h4>
               <p className="text-sm" style={{ color: "#8C7B65", fontFamily: "'Jost', sans-serif", fontWeight: 300 }}>{desc}</p>

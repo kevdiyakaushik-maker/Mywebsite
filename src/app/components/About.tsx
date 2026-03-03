@@ -78,7 +78,7 @@ export function About() {
               />
             </div>
             {/* Floating GIA badge */}
-            <div className="absolute -bottom-6 -left-6 w-32 h-32 flex flex-col items-center justify-center shadow-2xl" style={{ background: "#1A1108" }}>
+            <div className="hidden sm:flex absolute -bottom-6 -left-6 w-32 h-32 flex-col items-center justify-center shadow-2xl" style={{ background: "#1A1108" }}>
               <div className="text-[10px] tracking-[0.3em] uppercase mb-1.5" style={{ color: "#C9A96E", fontFamily: "'Jost', sans-serif" }}>Lab</div>
               <div className="text-2xl text-white" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 600 }}>GIA</div>
               <div className="text-[9px] tracking-[0.25em] uppercase mt-1" style={{ color: "#9A8B65", fontFamily: "'Jost', sans-serif" }}>Certified</div>

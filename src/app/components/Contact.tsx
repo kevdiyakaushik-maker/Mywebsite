@@ -85,19 +85,19 @@ export function Contact() {
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3">
               <a href="https://wa.me/971581307969" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-4 text-xs uppercase tracking-[0.2em] text-white transition-all hover:scale-[1.02]"
+                className="inline-flex items-center justify-center gap-3 px-6 py-4 text-xs uppercase tracking-[0.2em] text-white transition-all hover:scale-[1.02]"
                 style={{ background: "#25D366", fontFamily: "'Jost', sans-serif", fontWeight: 600 }}>
                 <WhatsAppIcon />{c.waBtn}
               </a>
               <a href="https://t.me/Jnkdiam" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-4 text-xs uppercase tracking-[0.2em] text-white transition-all hover:scale-[1.02]"
+                className="inline-flex items-center justify-center gap-3 px-6 py-4 text-xs uppercase tracking-[0.2em] text-white transition-all hover:scale-[1.02]"
                 style={{ background: "#229ED9", fontFamily: "'Jost', sans-serif", fontWeight: 600 }}>
                 <TelegramIcon />{c.tgBtn}
               </a>
               <a href="https://www.instagram.com/jnkdiam/" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-4 text-xs uppercase tracking-[0.2em] text-white transition-all hover:scale-[1.02]"
+                className="inline-flex items-center justify-center gap-3 px-6 py-4 text-xs uppercase tracking-[0.2em] text-white transition-all hover:scale-[1.02]"
                 style={{ background: "linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045)", fontFamily: "'Jost', sans-serif", fontWeight: 600 }}>
                 <InstagramIcon />{c.igBtn}
               </a>
@@ -123,8 +123,8 @@ export function Contact() {
 
           <p className="mb-12 text-sm leading-relaxed" style={{ color: "#8C7B65", fontFamily: "'Jost', sans-serif", fontWeight: 300 }}>{c.subtext}</p>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="grid grid-cols-2 gap-8">
+          <form onSubmit={handleSubmit} className="space-y-7">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
                 { name: "name", label: c.fields.name, placeholder: c.fields.namePlaceholder, type: "text", required: true },
                 { name: "company", label: c.fields.company, placeholder: c.fields.companyPlaceholder, type: "text", required: true },
@@ -145,7 +145,7 @@ export function Contact() {
               ))}
             </div>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
                 { name: "email", label: c.fields.email, placeholder: c.fields.emailPlaceholder, type: "email", required: true },
                 { name: "phone", label: c.fields.phone, placeholder: c.fields.phonePlaceholder, type: "tel", required: false },

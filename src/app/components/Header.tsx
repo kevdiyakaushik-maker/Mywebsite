@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import logoImg from "figma:asset/9455a08665c296b9c5622a03f5e87c8ee3a9cf55.png";
 import { useLang } from "./LanguageContext";
@@ -40,9 +40,13 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { t } = useLang();
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 80);
+      if (window.scrollY > 80) setIsMenuOpen(false);
+    };
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -150,34 +154,50 @@ export function Header() {
         </div>
       </div>
 
-      {isMenuOpen && (
-        <div
-          className="md:hidden"
-          style={{ background: "rgba(10,7,3,0.98)", borderTop: "1px solid rgba(201,169,110,0.12)" }}
-        >
-          <nav className="px-6 py-8 space-y-1">
-            {navLinks.map(({ label, id }) => (
-              <button
-                key={id}
-                onClick={() => scrollTo(id)}
-                className="block w-full text-left px-0 py-4 text-sm tracking-[0.2em] uppercase border-b transition-colors"
-                style={{ color: "rgba(254,252,248,0.6)", fontFamily: "'Jost', sans-serif", fontWeight: 300, borderColor: "rgba(201,169,110,0.1)" }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#C9A96E"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "rgba(254,252,248,0.6)"; }}
-              >
-                {label}
-              </button>
-            ))}
+      {/* Mobile menu — animated */}
+      <div
+        ref={menuRef}
+        className="md:hidden overflow-hidden transition-all duration-500 ease-in-out"
+        style={{
+          maxHeight: isMenuOpen ? "600px" : "0px",
+          opacity: isMenuOpen ? 1 : 0,
+          background: "rgba(10,7,3,0.98)",
+          borderTop: isMenuOpen ? "1px solid rgba(201,169,110,0.12)" : "none",
+        }}
+      >
+        <nav className="px-6 py-6 space-y-1">
+          {navLinks.map(({ label, id }, i) => (
             <button
-              onClick={() => scrollTo("contact")}
-              className="block w-full text-center py-4 mt-4 text-xs tracking-[0.25em] uppercase"
-              style={{ background: "#C9A96E", color: "#1A1108", fontFamily: "'Jost', sans-serif", fontWeight: 600 }}
+              key={id}
+              onClick={() => scrollTo(id)}
+              className="block w-full text-left px-0 py-4 text-sm tracking-[0.2em] uppercase border-b transition-colors"
+              style={{
+                color: "rgba(254,252,248,0.6)",
+                fontFamily: "'Jost', sans-serif",
+                fontWeight: 300,
+                borderColor: "rgba(201,169,110,0.1)",
+                transitionDelay: isMenuOpen ? `${i * 40}ms` : "0ms",
+                transform: isMenuOpen ? "translateX(0)" : "translateX(-10px)",
+                transition: "color 0.3s, transform 0.4s ease, opacity 0.4s ease",
+                opacity: isMenuOpen ? 1 : 0,
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#C9A96E"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "rgba(254,252,248,0.6)"; }}
             >
-              {t.nav.enquireNow}
+              {label}
             </button>
-          </nav>
-        </div>
-      )}
+          ))}
+          <button
+            onClick={() => scrollTo("contact")}
+            className="block w-full text-center py-4 mt-4 text-xs tracking-[0.25em] uppercase transition-all duration-300"
+            style={{ background: "#C9A96E", color: "#1A1108", fontFamily: "'Jost', sans-serif", fontWeight: 600 }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#DEC07E"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#C9A96E"; }}
+          >
+            {t.nav.enquireNow}
+          </button>
+        </nav>
+      </div>
     </header>
   );
 }

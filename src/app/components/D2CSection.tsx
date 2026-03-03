@@ -17,7 +17,7 @@ export function D2CSection() {
   const { t } = useLang();
   const d = t.d2c;
   const whatsapp = () => window.open("https://wa.me/971581307969", "_blank");
-  const telegram = () => window.open("https://t.me/+971581307969", "_blank");
+  const telegram = () => window.open("https://t.me/Jnkdiam", "_blank");
 
   return (
     <section id="d2c" className="overflow-hidden" style={{ background: "#FAF6EF" }}>
@@ -78,7 +78,7 @@ export function D2CSection() {
 
       {/* Offerings */}
       <div className="max-w-7xl mx-auto px-6 lg:px-14 mb-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           {d.offerings.map((item, i) => (
             <motion.div
               key={item.label}
@@ -86,8 +86,7 @@ export function D2CSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: i * 0.1 }}
-              className="group relative overflow-hidden cursor-pointer"
-              style={{ height: "360px" }}
+              className="group relative overflow-hidden cursor-pointer h-64 sm:h-80 md:h-[360px]"
             >
               <ImageWithFallback
                 src={offeringImages[i]}
